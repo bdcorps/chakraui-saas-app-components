@@ -47,33 +47,28 @@ import React from "react";
 import { Table, Thead, Tbody, Tr, Th, Td, chakra } from "@chakra-ui/react";
 import { TriangleDownIcon, TriangleUpIcon } from "@chakra-ui/icons";
 import { useTable, useSortBy, useRowSelect } from "react-table";
+import Filter from "./filters";
 
 const DataTable = () => {
   const data = React.useMemo(
     () => [
       {
-        fromUnit: "inches",
-        toUnit: "millimetres (mm)",
-        factor: "25.4",
-        a: "25.4",
-        b: "25.4",
-        c: "25.4",
+        description: "For React dev work",
+        payer: "Emilio from Flair Airlines",
+        amount: "25.4",
+        status: "PENDING",
       },
       {
-        fromUnit: "feet",
-        toUnit: "centimetres (cm)",
-        factor: "25.4",
-        a: "25.4",
-        b: "25.4",
-        c: "25.4",
+        description: "For Vue dev work",
+        payer: "Emilio from Miami Tech",
+        amount: "25.4",
+        status: "PAID",
       },
       {
-        fromUnit: "yards",
-        toUnit: "metres (m)",
-        factor: "25.4",
-        a: "25.4",
-        b: "25.4",
-        c: "25.4",
+        description: "For PHP dev work",
+        payer: "Emilio from Air Canada",
+        amount: "25.4",
+        status: "CREATED",
       },
     ],
     []
@@ -82,28 +77,20 @@ const DataTable = () => {
   const columns: any = React.useMemo(
     () => [
       {
-        Header: "To convert",
-        accessor: "fromUnit",
+        Header: "Description",
+        accessor: "description",
       },
       {
-        Header: "Into",
-        accessor: "toUnit",
+        Header: "Payer",
+        accessor: "payer",
       },
       {
-        Header: "Multiply by",
-        accessor: "factor",
+        Header: "Amount",
+        accessor: "amount",
       },
       {
-        Header: "A",
-        accessor: "a",
-      },
-      {
-        Header: "B",
-        accessor: "b",
-      },
-      {
-        Header: "C",
-        accessor: "c",
+        Header: "Status",
+        accessor: "status",
       },
     ],
     []
@@ -164,13 +151,13 @@ const DataTable = () => {
   return (
     <Box w="full">
       <HStack spacing={4}>
-        <Input placeholder="Search" w="40%" />
+        <Input placeholder="Search" w="40%" size="sm" />
 
         <Spacer />
 
         <Popover>
           <PopoverTrigger>
-            <Button rightIcon={<DragHandleIcon />} variant="outline">
+            <Button rightIcon={<DragHandleIcon />} variant="outline" size="sm">
               Filters
             </Button>
           </PopoverTrigger>
@@ -179,7 +166,8 @@ const DataTable = () => {
               <PopoverCloseButton />
               <PopoverHeader fontWeight="medium">Filters</PopoverHeader>
               <PopoverBody>
-                <VStack spacing={4}>
+                <Filter />
+                {/* <VStack spacing={4}>
                   {Object.keys(data[0]).map((option: any, j: number) => {
                     const a = allOptions[option];
                     return (
@@ -196,7 +184,7 @@ const DataTable = () => {
                       </Select>
                     );
                   })}
-                </VStack>
+                </VStack> */}
               </PopoverBody>
             </PopoverContent>
           </Portal>
@@ -207,6 +195,7 @@ const DataTable = () => {
             as={Button}
             rightIcon={<ChevronDownIcon />}
             variant="outline"
+            size="sm"
           >
             Actions
           </MenuButton>
@@ -224,7 +213,13 @@ const DataTable = () => {
       </HStack>
 
       <Box overflowX="auto">
-        <Table {...getTableProps()} size="sm" mt={6} width="max-content">
+        <Table
+          {...getTableProps()}
+          size="sm"
+          mt={6}
+          width="max-content"
+          minWidth="full"
+        >
           <Thead>
             {headerGroups.map((headerGroup, i) => (
               <Tr {...headerGroup.getHeaderGroupProps()} key={i}>
@@ -274,8 +269,12 @@ const DataTable = () => {
           Showing 1 to 5 of 42 results
         </Text>
         <Spacer />
-        <Button variant="outline">Previous</Button>
-        <Button variant="outline">Next</Button>
+        <Button variant="outline" size="sm">
+          Previous
+        </Button>
+        <Button variant="outline" size="sm">
+          Next
+        </Button>
       </HStack>
     </Box>
   );
