@@ -54,6 +54,24 @@ const Home: NextPage = () => {
   const tax = AMOUNT * (salesTax / 100);
   const toast = useToast();
 
+  const getActualCost = async (reservationId: string) => {
+    const response = await fetch(
+      `https://api.testwyre.com/v3/orders/reservation/${reservationId}`,
+      {
+        body: JSON.stringify({}),
+        headers: {
+          Accept: "application/json",
+          Authorization: "Bearer TEST-SK-MX4VW9MC-7WR7E9MJ-XNMZML8L-TU7NFP3G",
+          "Content-Type": "application/json",
+        },
+        method: "POST",
+      }
+    );
+
+    const data = await response.json();
+    return data.sourceAmountWithoutFees;
+  };
+
   const onButtonClick = async () => {
     setSubmitting(true);
     const body = {
@@ -87,6 +105,9 @@ const Home: NextPage = () => {
     const response = await fetch("https://api.testwyre.com/v3/orders/reserve", {
       body: JSON.stringify({
         referrerAccountId: "AC_6EUV8R7MGXJ",
+        sourceAmount: AMOUNT + tax,
+        amountIncludeFees: true,
+        lockFields: ["sourceAmount"],
       }),
       headers: {
         Accept: "application/json",
@@ -122,6 +143,7 @@ const Home: NextPage = () => {
       givenName: name.split(" ")[0],
       familyName: name.split(" ")[1],
       email,
+      ipAddress: "1.1.1.1",
       phone: "+14158122223",
     };
 
@@ -144,6 +166,14 @@ const Home: NextPage = () => {
 
     console.log(data2);
     setOrder(data2.id);
+
+    toast({
+      title: "Processing payment...",
+      description: "",
+      status: "info",
+      duration: 9000,
+      isClosable: true,
+    });
   };
 
   const onOrderCheck = async () => {
@@ -163,7 +193,7 @@ const Home: NextPage = () => {
       toast({
         title: "Payment status",
         description: errorMessage,
-        status: status === "FAILED" ? "error" : "success",
+        status: status === "FAILED" ? "error" : "info",
         duration: 9000,
         isClosable: true,
       });
@@ -189,7 +219,7 @@ const Home: NextPage = () => {
           <Text color="gray.500">
             Turn the unit towards the customer after confirming the order
           </Text>
-          <DisplayValue label="Indica (x1)" value="$8" />
+          <DisplayValue label="Indica (x1)" value={`$${AMOUNT}`} />
           <Divider />
           <DisplayValue label="Sales Tax" value={`$${tax}`} />
           <DisplayValue label="Total" value={`$${tax + AMOUNT}`} />
@@ -344,6 +374,8 @@ const Home: NextPage = () => {
           </Checkbox>
 
           <Checkbox defaultChecked>Send me cool stuff in my email</Checkbox>
+
+          {/* <Text color="gray.300">The freelancer will get </Text> */}
 
           {!submitting && (
             <Button variant="solid" onClick={onButtonClick}>
