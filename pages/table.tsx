@@ -53,28 +53,22 @@ const DataTable = () => {
   const data = React.useMemo(
     () => [
       {
-        fromUnit: "inches",
-        toUnit: "millimetres (mm)",
-        factor: "25.4",
-        a: "25.4",
-        b: "25.4",
-        c: "25.4",
+        description: "For React dev work",
+        payer: "Emilio from Flair Airlines",
+        amount: "25.4",
+        status: "PENDING",
       },
       {
-        fromUnit: "feet",
-        toUnit: "centimetres (cm)",
-        factor: "25.4",
-        a: "25.4",
-        b: "25.4",
-        c: "25.4",
+        description: "For Vue dev work",
+        payer: "Emilio from Miami Tech",
+        amount: "25.4",
+        status: "PAID",
       },
       {
-        fromUnit: "yards",
-        toUnit: "metres (m)",
-        factor: "25.4",
-        a: "25.4",
-        b: "25.4",
-        c: "25.4",
+        description: "For PHP dev work",
+        payer: "Emilio from Air Canada",
+        amount: "25.4",
+        status: "CREATED",
       },
     ],
     []
@@ -83,28 +77,20 @@ const DataTable = () => {
   const columns: any = React.useMemo(
     () => [
       {
-        Header: "To convert",
-        accessor: "fromUnit",
+        Header: "Description",
+        accessor: "description",
       },
       {
-        Header: "Into",
-        accessor: "toUnit",
+        Header: "Payer",
+        accessor: "payer",
       },
       {
-        Header: "Multiply by",
-        accessor: "factor",
+        Header: "Amount",
+        accessor: "amount",
       },
       {
-        Header: "A",
-        accessor: "a",
-      },
-      {
-        Header: "B",
-        accessor: "b",
-      },
-      {
-        Header: "C",
-        accessor: "c",
+        Header: "Status",
+        accessor: "status",
       },
     ],
     []
