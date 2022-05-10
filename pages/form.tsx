@@ -94,7 +94,6 @@ const LoginForm = () => {
 
         <Button
           onClick={handleSubmit(onSubmit)}
-          colorScheme="blue"
           isFullWidth
           isLoading={isSubmitting}
           disabled={!!errors.email || !!errors.password}
